@@ -1,26 +1,28 @@
 {
-  "name": "node-js-getting-started",
-  "version": "0.1.4",
-  "description": "A sample Node.js app using Express 4",
-  "main": "index.js",
+  "name": "nodejs",
+  "version": "1.0.0",
+  "private": true,
+  "main": "app.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node app.js"
   },
   "dependencies": {
-    "ejs": "^2.3.1",
-    "express": "~4.9.x"
-  },
-  "engines": {
-    "node": "0.12.2"
+    "express": "~4.9.0",
+    "body-parser": "~1.8.1",
+    "express-session":"*",
+    "jade":"*",
+    "morgan":"*",
+    "multer":"*",
+    "method-override":"*",
+    "serve-favicon":"*",
+    "errorhandler":"*"
+
+
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/rohtash/nodejs"
+    "url": "https://github.com/rohtash/nodejs.git"
   },
-  "keywords": [
-    "node",
-    "heroku",
-    "express"
-  ],
-  "license": "MIT"
+
+  "homepage": "https://github.com/rohtash/nodejs"
 }
