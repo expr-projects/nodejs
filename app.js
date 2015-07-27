@@ -13,9 +13,8 @@ var errorHandler = require('errorhandler');
 
 var app = express();
 var uristring =
-  process.env.MONGOLAB_URI ||
-  process.env.MONGOHQ_URL ||
-  'mongodb://localhost/HelloMongoose';
+  process.env.MONGOLAB_URI ||"mongodb://heroku_vgxwdkrp:ivoo85oisvap6sc46uodke2mg3@ds027483.mongolab.com:27483/heroku_vgxwdkrp"||
+  process.env.MONGOHQ_URL;
 
 mongoose.connect(uristring, function (err, res) {
   if (err) {
