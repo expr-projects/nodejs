@@ -15,7 +15,8 @@
     "multer":"*",
     "method-override":"*",
     "serve-favicon":"*",
-    "errorhandler":"*"
+    "errorhandler":"*",
+    "mongoose":"*"
 
 
   },
