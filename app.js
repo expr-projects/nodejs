@@ -2,6 +2,7 @@ var http = require('http');
 var express = require('express');
 var routes = require('./routes/index');
 var path = require('path');
+mongoose = require('mongoose');
 var favicon = require('serve-favicon');
 //var logger = require('morgan');
 var methodOverride = require('method-override');
@@ -11,6 +12,12 @@ var multer = require('multer');
 var errorHandler = require('errorhandler');
 
 var app = express();
+mongoose.connect('mongodb://localhost/trendingdb');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function (callback) {
+  // yay!
+});
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -25,10 +32,9 @@ app.use(session({ resave: true,
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(multer());
+app.get('/',routes);
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/',routes);
-//app.get('/users', user.list);
 
 //error handling middleware should be loaded after the loading the routes
 if ('development' == app.get('env')) {
