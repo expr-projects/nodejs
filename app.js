@@ -13,9 +13,15 @@ var errorHandler = require('errorhandler');
 
 var app = express();
 var uristring =
-  process.env.MONGOLAB_URI ||"mongodb://heroku_vgxwdkrp:ivoo85oisvap6sc46uodke2mg3@ds027483.mongolab.com:27483/heroku_vgxwdkrp"||
-  process.env.MONGOHQ_URL;
-
+  process.env.MONGOLAB_URI ||
+  process.env.MONGOHQ_URL ||
+  'mongodb://localhost/trendingdb';
+///mongoose.connect('mongodb://localhost/trendingdb');
+// var db = mongoose.connection;
+// db.on('error', console.error.bind(console, 'connection error:'));
+// db.once('open', function (callback) {
+//   // yay!
+// });
 mongoose.connect(uristring, function (err, res) {
   if (err) {
     console.log ('ERROR connecting to: ' + uristring + '. ' + err);
