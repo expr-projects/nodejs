@@ -9,8 +9,8 @@ var multer = require('multer');
 var errorHandler = require('errorhandler');
 var path = require('path');
 //****************************routes**************************************
-var  test = require('./routes/userEntry');
-var routes = require('./routes/index');
+var  userEntry = require('./routes/userEntry');
+var index = require('./routes/index');
 
 var app = express();
 
@@ -40,8 +40,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 /******************************routes configuration****************************************/
-app.get('/test1',routes);
-app.post('/test', test);
+app.get('/',index);
+app.post('/userEntry', userEntry);
 
 //error handling middleware should be loaded after the loading the routes
 if ('development' == app.get('env')) {
