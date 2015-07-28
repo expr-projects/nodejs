@@ -16,7 +16,9 @@
     "method-override":"*",
     "serve-favicon":"*",
     "errorhandler":"*",
-    "mongoose":"*"
+    "mongoose":"*",
+    "async":"*",
+    "fs":"*"
 
 
   },

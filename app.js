@@ -1,27 +1,26 @@
 var http = require('http');
 var express = require('express');
-var routes = require('./routes/index');
-var path = require('path');
 mongoose = require('mongoose');
 var favicon = require('serve-favicon');
-//var logger = require('morgan');
 var methodOverride = require('method-override');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var errorHandler = require('errorhandler');
+var path = require('path');
+//****************************routes**************************************
+var  test = require('./routes/userEntry');
+var routes = require('./routes/index');
 
 var app = express();
+
+
+/*************************db connection***********************************************/
 var uristring =
   process.env.MONGOLAB_URI ||
   process.env.MONGOHQ_URL ||
   'mongodb://localhost/trendingdb';
-///mongoose.connect('mongodb://localhost/trendingdb');
-// var db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'connection error:'));
-// db.once('open', function (callback) {
-//   // yay!
-// });
+
 mongoose.connect(uristring, function (err, res) {
   if (err) {
     console.log ('ERROR connecting to: ' + uristring + '. ' + err);
@@ -29,28 +28,26 @@ mongoose.connect(uristring, function (err, res) {
     console.log ('Succeeded connected to: ' + uristring);
   }
 });
+
 // all environments
+/*****************************app configuration*************************************/
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-//app.use(favicon(__dirname + '/public/favicon.ico'));
-//app.use(logger('dev'));
 app.use(methodOverride());
-app.use(session({ resave: true,
-                  saveUninitialized: true,
-                  secret: 'uwotm8' }));
+app.use(session({ resave: true, saveUninitialized: true,secret: 'uwotm8' }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-//app.use(multer());
-app.get('/',routes);
 app.use(express.static(path.join(__dirname, 'public')));
-
+/******************************routes configuration****************************************/
+app.get('/test1',routes);
+app.post('/test', test);
 
 //error handling middleware should be loaded after the loading the routes
 if ('development' == app.get('env')) {
   app.use(errorHandler());
 }
-
+/*******************************server creation******************************************/
 var server = http.createServer(app);
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

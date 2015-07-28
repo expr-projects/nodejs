@@ -1,9 +1,12 @@
 var express = require('express');
 var router = express.Router();
-
-/* GET home page. */
+var mongoose = require('mongoose');
+var fs = require('fs');
+var obj = JSON.parse(fs.readFileSync('staffDetails.json', 'utf8'));
 router.get('/', function(request, response) {
-  response.render('layout');
+  response.setHeader('Content-Type', 'application/json');
+      response.send(JSON.stringify(obj));
+  //response.render('layout');
 });
 
 module.exports = router;
