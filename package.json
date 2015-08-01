@@ -18,7 +18,8 @@
     "errorhandler":"*",
     "mongoose":"*",
     "async":"*",
-    "fs":"*"
+    "fs":"*",
+    "winston":"*"
 
 
   },

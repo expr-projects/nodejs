@@ -1,16 +1,19 @@
-var http = require('http');
-var express = require('express');
-mongoose = require('mongoose');
-var favicon = require('serve-favicon');
-var methodOverride = require('method-override');
-var session = require('express-session');
-var bodyParser = require('body-parser');
-var multer = require('multer');
-var errorHandler = require('errorhandler');
-var path = require('path');
+
+var express = require('express')
+    , http = require('http')
+//    ,morgan = require('morgan')
+    ,mongoose = require('mongoose')
+    ,favicon = require('serve-favicon')
+    ,methodOverride = require('method-override')
+    ,session = require('express-session')
+    ,bodyParser = require('body-parser')
+    ,multer = require('multer')
+    ,errorHandler = require('errorhandler')
+    ,path = require('path');
 //****************************routes**************************************
-var  userEntry = require('./routes/userEntry');
 var index = require('./routes/index');
+var userEntry = require('./routes/userEntry');
+var users = require('./routes/users');
 
 var app = express();
 
@@ -31,16 +34,20 @@ mongoose.connect(uristring, function (err, res) {
 
 // all environments
 /*****************************app configuration*************************************/
+
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+//app.use(morgan('combined'));
+app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(methodOverride());
 app.use(session({ resave: true, saveUninitialized: true,secret: 'uwotm8' }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 /******************************routes configuration****************************************/
-app.get('/',index);
+app.get('/',index)
+app.use('/users',users);
 app.post('/userEntry', userEntry);
 
 //error handling middleware should be loaded after the loading the routes

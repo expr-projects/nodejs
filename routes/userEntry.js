@@ -9,9 +9,10 @@ var obj = JSON.parse(fs.readFileSync('staffDetails.json', 'utf8'));
 async.each(obj, function(employee,callback){
 
 		var userEntry = new User ({
-			tpxID : employee.tpxID.toUpperCase(),
-			passWord : 'Tesco123'
-
+			emailID : employee.emailID.toLowerCase(),
+			passWord : 'Tesco123',
+      firstName : employee.firstName.toLowerCase(),
+			lastName : employee.lastName.toLowerCase()
 		});
 
 		userEntry.save(function (err) {
