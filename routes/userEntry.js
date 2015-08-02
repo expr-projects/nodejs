@@ -1,4 +1,4 @@
-var User = require('../models/minions').User;
+var UserList = require('../models/minions').userList;
 var fs = require('fs');
 var async = require('async');
 var express = require('express');
@@ -8,7 +8,7 @@ var obj = JSON.parse(fs.readFileSync('staffDetails.json', 'utf8'));
 
 async.each(obj, function(employee,callback){
 
-		var userEntry = new User ({
+		var userEntry = new UserList ({
 			emailID : employee.emailID.toLowerCase(),
 			passWord : 'Tesco123',
       firstName : employee.firstName.toLowerCase(),

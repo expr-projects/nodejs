@@ -1,7 +1,8 @@
 
 var express = require('express')
     , http = require('http')
-//    ,morgan = require('morgan')
+    ,morgan = require('morgan')
+    ,cookieParser = require('cookie-parser')
     ,mongoose = require('mongoose')
     ,favicon = require('serve-favicon')
     ,methodOverride = require('method-override')
@@ -9,45 +10,45 @@ var express = require('express')
     ,bodyParser = require('body-parser')
     ,multer = require('multer')
     ,errorHandler = require('errorhandler')
-    ,path = require('path');
+    ,path = require('path')
+    ,passport = require('passport')
+    ,flash = require('connect-flash');
 //****************************routes**************************************
 var index = require('./routes/index');
 var userEntry = require('./routes/userEntry');
-var users = require('./routes/users');
 
+/************************************************************************************/
 var app = express();
-
-
 /*************************db connection***********************************************/
-var uristring =
-  process.env.MONGOLAB_URI ||
-  process.env.MONGOHQ_URL ||
-  'mongodb://localhost/trendingdb';
-
-mongoose.connect(uristring, function (err, res) {
+var configDB = require('./config/database.js');
+mongoose.connect(configDB.url, function (err, res) {
   if (err) {
-    console.log ('ERROR connecting to: ' + uristring + '. ' + err);
+    console.log ('ERROR connecting to: ' + configDB.url + '. ' + err);
   } else {
-    console.log ('Succeeded connected to: ' + uristring);
+    console.log ('Succeeded connected to: ' + configDB.url);
   }
 });
-
-// all environments
 /*****************************app configuration*************************************/
-
+require('./config/passport')(passport);
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-//app.use(morgan('combined'));
+app.set('view engine', 'ejs');
 app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(morgan('dev'));
 app.use(methodOverride());
-app.use(session({ resave: true, saveUninitialized: true,secret: 'uwotm8' }));
+app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(session({secret: 'anystringoftext',
+				 saveUninitialized: true,
+				 resave: true}));
+
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 /******************************routes configuration****************************************/
-app.get('/',index)
-app.use('/users',users);
+require('./routes/routes.js')(app, passport);
 app.post('/userEntry', userEntry);
 
 //error handling middleware should be loaded after the loading the routes
