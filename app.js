@@ -14,8 +14,7 @@ var express = require('express')
     ,passport = require('passport')
     ,flash = require('connect-flash');
 //****************************routes**************************************
-var index = require('./routes/index');
-var userEntry = require('./routes/userEntry');
+
 
 /************************************************************************************/
 var app = express();
@@ -30,7 +29,7 @@ mongoose.connect(configDB.url, function (err, res) {
 });
 /*****************************app configuration*************************************/
 require('./config/passport')(passport);
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 8080);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -49,7 +48,7 @@ app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 /******************************routes configuration****************************************/
 require('./routes/routes.js')(app, passport);
-app.post('/userEntry', userEntry);
+
 
 //error handling middleware should be loaded after the loading the routes
 if ('development' == app.get('env')) {
